@@ -1,0 +1,23 @@
+stages:
+  - format
+  - lint
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - chmod +x gradlew
+
+spotless_check:
+  stage: format
+  script:
+    - ./gradlew spotlessCheck
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+
+checkstyle:
+  stage: lint
+  script:
+    - ./gradlew checkstyleMain checkstyleTest
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
