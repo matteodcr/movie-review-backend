@@ -2,6 +2,7 @@ stages:
   - format
   - lint
   - docker
+  - test
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -57,3 +58,13 @@ build-and-push-image:
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: always
+# Test
+test:
+ stage: test
+ image: gradle:8.5-jdk21
+ before_script:
+   - chmod +x gradlew
+ script:
+   - ./gradlew test
+ rules:
+   - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
