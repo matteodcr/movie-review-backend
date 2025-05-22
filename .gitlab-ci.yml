@@ -60,6 +60,7 @@ build-and-push-image:
       when: always
 
 renovate:
+  stage: renovate
   image: renovate/renovate:latest
   script:
     - renovate
