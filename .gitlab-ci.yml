@@ -1,0 +1,28 @@
+stages:
+  - format
+  - lint
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+# Étape format avec Spotless
+spotless_check:
+  stage: format
+  image: gradle:8.5-jdk21
+  before_script:
+    - chmod +x gradlew
+  script:
+    - ./gradlew spotlessCheck
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+
+# Étape de lint avec Checkstyle
+checkstyle:
+  stage: lint
+  image: gradle:8.5-jdk21
+  before_script:
+    - chmod +x gradlew
+  script:
+    - ./gradlew checkstyleMain checkstyleTest
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'

@@ -23,7 +23,8 @@
       "plugins": [
         "com.github.copilot",
         "com.github.lppedd.idea-conventional-commit-commitlint",
-        "com.github.lppedd.idea-conventional-commit"
+        "com.github.lppedd.idea-conventional-commit",
+        "com.github.deeepamin.gitlabciaid"
       ]
     }
   },
