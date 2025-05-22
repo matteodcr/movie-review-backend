@@ -1,0 +1,15 @@
+{
+  "extends": ["config:base"],
+  "schedule": ["before 6am on every weekday"],
+  "platform": "gitlab",
+  "automerge": false,
+  "prHourlyLimit": 0,
+  "prDailyLimit": 1,
+  "stabilityDays": 0,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major updates"
+    }
+  ]
+}

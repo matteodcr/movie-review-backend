@@ -57,3 +57,15 @@ build-and-push-image:
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: always
+
+renovate:
+  image: renovate/renovate:latest
+  script:
+    - renovate
+  only:
+    - schedules
+  variables:
+    RENOVATE_TOKEN: $RENOVATE_TOKEN
+    RENOVATE_PLATFORM: "gitlab"
+    RENOVATE_ENDPOINT: "https://gitlab.com/api/v4"
+    RENOVATE_REPOSITORIES: "movie-review1/api"
