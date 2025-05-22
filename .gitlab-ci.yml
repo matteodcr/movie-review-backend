@@ -1,8 +1,8 @@
 stages:
   - format
   - lint
-  - docker
   - test
+  - docker
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
