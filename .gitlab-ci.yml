@@ -1,11 +1,13 @@
 stages:
   - format
   - lint
+  - docker
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  IMAGE_NAME: "$CI_REGISTRY_IMAGE/app"
 
-# Étape format avec Spotless
+# Format avec Spotless (MRs vers master uniquement)
 spotless_check:
   stage: format
   image: gradle:8.5-jdk21
@@ -16,7 +18,7 @@ spotless_check:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
 
-# Étape de lint avec Checkstyle
+# Lint avec Checkstyle (MRs vers master uniquement)
 checkstyle:
   stage: lint
   image: gradle:8.5-jdk21
@@ -26,3 +28,32 @@ checkstyle:
     - ./gradlew checkstyleMain checkstyleTest
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+
+# Build de l'image pour valider (toutes les MRs)
+build-test-image:
+  stage: docker
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - docker build -t test-image .
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+# Build & push sur master
+build-and-push-image:
+  stage: docker
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - docker build -t "$IMAGE_NAME:latest" -t "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$IMAGE_NAME:latest"
+    - docker push "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: always
