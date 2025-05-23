@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## gitlab-ci-local ###
+.gitlab-ci-local/
