@@ -70,7 +70,7 @@ build-test-image:
   script:
     - docker build -t test-image .
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $GITLAB_CI == "false"'
 
 # Build & push sur master
 build-and-push-image:
