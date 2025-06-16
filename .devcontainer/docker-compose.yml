@@ -13,6 +13,7 @@ services:
         POSTGRES_USER: postgres
         POSTGRES_DB: postgres
         POSTGRES_HOSTNAME: postgresdb
+    env_file: "devcontainer.env"
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

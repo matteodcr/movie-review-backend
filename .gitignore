@@ -38,3 +38,6 @@ out/
 
 ## gitlab-ci-local ###
 .gitlab-ci-local/
+
+## env
+*.env

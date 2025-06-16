@@ -1,5 +1,7 @@
 package com.matteodcr.movieapi.review.infrastructure;
 
+import com.matteodcr.movieapi.movie.infrastructure.MovieEntity;
+import com.matteodcr.movieapi.review.api.dto.UpdateReviewDto;
 import com.matteodcr.movieapi.review.api.mapper.ReviewMapper;
 import com.matteodcr.movieapi.review.domain.Review;
 import jakarta.persistence.EntityManager;
@@ -17,8 +19,9 @@ public class JpaReviewRepository implements ReviewRepository {
   @PersistenceContext private EntityManager em;
 
   @Override
-  public Review save(Review review) {
-    ReviewEntity entity = ReviewMapper.toEntity(review);
+  public Review save(Review review, Long tmdbId) {
+    MovieEntity movieReference = em.getReference(MovieEntity.class, tmdbId);
+    ReviewEntity entity = ReviewMapper.toEntity(review, movieReference);
     if (entity.getId() == null) {
       em.persist(entity);
     } else {
@@ -43,9 +46,24 @@ public class JpaReviewRepository implements ReviewRepository {
   }
 
   @Override
+  public Optional<Review> update(Long id, UpdateReviewDto dto) {
+    ReviewEntity entity = em.find(ReviewEntity.class, id);
+    if (entity != null) {
+      entity.setComment(dto.getComment());
+      entity.setNote(dto.getNote());
+      return Optional.of(ReviewMapper.toDomain(entity));
+    }
+    return Optional.empty();
+  }
+
+  @Override
   public void delete(Long id) {
     ReviewEntity e = em.find(ReviewEntity.class, id);
     if (e != null) {
+      MovieEntity movie = e.getMovie();
+      if (movie != null) {
+        movie.getReviews().remove(e);
+      }
       em.remove(e);
     }
   }

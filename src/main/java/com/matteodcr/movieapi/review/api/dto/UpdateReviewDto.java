@@ -6,9 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateReviewDto {
-  private Long tmdbId;
-
+public class UpdateReviewDto {
   @Size(min = 5, max = 10000)
   private String comment;
 
