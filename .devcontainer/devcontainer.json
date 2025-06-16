@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/java-postgres
 {
-	"name": "Java & PostgreSQL",
+	"name": "MovieReview: Backend",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -26,8 +26,18 @@
         "com.github.lppedd.idea-conventional-commit",
         "com.github.deeepamin.gitlabciaid"
       ]
-    }
-  },
+    },
+	"vscode": {
+		"extensions": [
+			"cweijan.vscode-database-client2",
+			"vmware.vscode-boot-dev-pack",
+			"vscjava.vscode-java-pack",
+			"mhutchie.git-graph",
+			"knisterpeter.vscode-commitizen"
+		]
+	}
+  }
+  
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"

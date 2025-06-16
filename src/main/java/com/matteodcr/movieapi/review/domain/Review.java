@@ -7,8 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class Review {
   private Long id;
-  private Long tmdbId;
-  private String title;
   private String comment;
   private int note;
 }

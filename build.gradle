@@ -13,14 +13,13 @@ spotless {
     java {
         // Use the Google Java formatter
         googleJavaFormat()
-
         // Alternatively, you can specify a version
         // googleJavaFormat('1.19.2')
-
+        
         // Optional: Remove unused imports
         importOrder()
         removeUnusedImports()
-
+        
         // Optional: Add license header
         // licenseHeader '/* Copyright $YEAR */'
     }
@@ -64,15 +63,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.4'
     implementation("org.postgresql:postgresql:42.7.3")
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
+    
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+    
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'com.h2database:h2'
-
 }
 
 test {
@@ -83,6 +83,6 @@ test {
         showStandardStreams = true
     }
     jvmArgs += [
-            "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('byte-buddy-agent') }}"
+        "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('byte-buddy-agent') }}"
     ]
 }

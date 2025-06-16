@@ -6,7 +6,6 @@ spring:
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,6 +15,10 @@ spring:
         format_sql: true
     open-in-view: false
 
+tmdb:
+  api:
+    key: ${TMDB_API_KEY:your_tmdb_api_key}
+
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -24,4 +27,13 @@ springdoc:
   show-actuator: true
   packages-to-scan: com.matteodcr.movieapi
 
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: ${ALLOWED_ORIGINS:*}
+
+server:
+  error:
+    include-stacktrace: never
 
