@@ -85,5 +85,5 @@ build-and-push-image:
     - docker push "$IMAGE_NAME:latest"
     - docker push "$IMAGE_NAME:$CI_COMMIT_SHORT_SHA"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master" && $GITLAB_CI == "false"'
+    - if: '$CI_COMMIT_BRANCH == "master" && $GITLAB_CI == "true"'
       when: always
